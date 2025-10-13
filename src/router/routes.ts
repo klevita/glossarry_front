@@ -3,12 +3,24 @@ import type { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    children: [
+      {
+        path: 'glossary',
+        name: 'Glossary',
+        component: () => import('pages/GlossaryPage.vue')
+      },
+      {
+        path: 'graph',
+        name: 'Graph',
+        component: () => import('pages/GraphPage.vue'),
+      }
+    ],
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    redirect() {
+      return 'glossary';
+    },
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

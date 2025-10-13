@@ -41,6 +41,17 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     },
   },
+  {
+    files: ['**/*.ts', '**/*.vue'],
+    languageOptions: {
+      parser: import('@typescript-eslint/parser'),
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+        extraFileExtensions: ['.vue'],
+      },
+    },
+  },
   // https://github.com/vuejs/eslint-config-typescript
   vueTsConfigs.recommendedTypeChecked,
 

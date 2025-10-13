@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable tag="a" target="_blank" :href="link">
+  <q-item clickable tag="a" target="_blank" @click="router.replace({name: props.routeName})">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -12,16 +12,17 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
 export interface EssentialLinkProps {
   title: string;
-  caption?: string;
-  link?: string;
-  icon?: string;
+  caption: string;
+  routeName: string;
+  icon: string;
 }
 
-withDefaults(defineProps<EssentialLinkProps>(), {
-  caption: '',
-  link: '#',
-  icon: '',
-});
+const props = defineProps<EssentialLinkProps>();
+
+const router = useRouter()
+
 </script>
