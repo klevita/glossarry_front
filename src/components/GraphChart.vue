@@ -11,8 +11,8 @@ import {
 } from "echarts/components";
 import VChart from "vue-echarts";
 import { computed } from 'vue';
-import { GlossaryItem, GlossaryLink } from 'src/api/data-contracts/glossary-contracts';
-import { GraphSeriesOption } from 'echarts';
+import type { GlossaryItem, GlossaryLink } from 'src/api/data-contracts/glossary-contracts';
+import type { GraphSeriesOption } from 'echarts';
 
 use([
   CanvasRenderer,
