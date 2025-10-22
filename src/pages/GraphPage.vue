@@ -5,10 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { getGlossary, getLinks } from 'src/api/services/glossary-service';
+import { getGlossary } from 'src/api/services/glossary-service';
 import { onMounted, ref } from 'vue';
 import type { GlossaryItem, GlossaryLink } from 'src/api/data-contracts/glossary-contracts';
 import GraphChart from 'components/GraphChart.vue';
+import { getLinks } from 'src/api/services/links-service';
 
 const glossary = ref<GlossaryItem[]>([])
 const links = ref<GlossaryLink[]>([])

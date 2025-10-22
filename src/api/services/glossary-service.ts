@@ -1,14 +1,19 @@
-import {httpClient} from 'src/api/services/http-client';
-import type { AxiosResponse } from 'axios';
-import type { GlossaryItem, GlossaryLink } from 'src/api/data-contracts/glossary-contracts';
-
-type Resp<T> = Promise<AxiosResponse<T>>
+import { httpClient } from 'src/api/services/http-client';
+import type { GlossaryItem } from 'src/api/data-contracts/glossary-contracts';
 
 export function getGlossary(){
-  return httpClient.get('glossary/') as Resp<GlossaryItem[]>;
+  return httpClient.get<GlossaryItem[]>('glossary/getAll/');
 }
 
-export function getLinks(){
-  return httpClient.get('links/') as Resp<GlossaryLink[]>;
+export function createGlossaryItem(newLink: GlossaryItem){
+  return httpClient.post<GlossaryItem[]>('glossary/create/', newLink);
+}
+
+export function updateGlossaryItem(id: number){
+  return httpClient.put<GlossaryItem[]>(`glossary/update/${id}/`);
+}
+
+export function deleteGlossaryItem(id: number){
+  return httpClient.delete<GlossaryItem[]>(`glossary/delete/${id}/`);
 }
 

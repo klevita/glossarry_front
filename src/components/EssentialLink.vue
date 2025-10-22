@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable tag="a" target="_blank" @click="router.replace({name: props.routeName})">
+  <q-item clickable tag="a" target="_blank" @click="redirect">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
@@ -17,12 +17,21 @@ import { useRouter } from 'vue-router';
 export interface EssentialLinkProps {
   title: string;
   caption: string;
-  routeName: string;
   icon: string;
+  routeName?: string;
+  action?: () => void
 }
 
 const props = defineProps<EssentialLinkProps>();
 
 const router = useRouter()
 
+function redirect(){
+  if(props.routeName){
+    void router.replace({name: props.routeName});
+  }
+  if(props.action){
+    props.action()
+  }
+}
 </script>

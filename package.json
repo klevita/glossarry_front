@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
-    "@typescript-eslint/parser": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.2",
     "axios": "^1.2.1",
     "echarts": "^6.0.0",
     "pinia": "^3.0.1",
