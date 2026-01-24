@@ -1,20 +1,13 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
-import type { GlossaryLink } from 'src/api/data-contracts/glossary-contracts';
 
-const makeEmptyGlossaryLink = (): Omit<GlossaryLink, 'id'> & { id?: number } => ({
-  source: undefined as unknown as number,
-  target: undefined as unknown as number,
-  name: '',
-});
-
-export const useGlossaryLinkModalStore = defineStore('glossary-link-modal', () => {
+export const useGlossaryLinkDeleteModalStore = defineStore('glossary-link-delete-modal', () => {
   const isOpened = ref(false);
-  const data = ref<Partial<GlossaryLink>>(makeEmptyGlossaryLink());
+  const selectedLinkId = ref<number | null>(null);
   const onSuccess = ref<(() => void) | null>(null);
 
-  function openModal(glossaryLink = makeEmptyGlossaryLink(), successCallback?: () => void) {
-    data.value = glossaryLink;
+  function openModal(successCallback?: () => void) {
+    selectedLinkId.value = null;
     onSuccess.value = successCallback || null;
     isOpened.value = true;
   }
@@ -33,7 +26,7 @@ export const useGlossaryLinkModalStore = defineStore('glossary-link-modal', () =
     () => isOpened.value,
     (opened) => {
       if (!opened) {
-        data.value = makeEmptyGlossaryLink();
+        selectedLinkId.value = null;
         onSuccess.value = null;
       }
     },
@@ -44,6 +37,6 @@ export const useGlossaryLinkModalStore = defineStore('glossary-link-modal', () =
     closeModal,
     triggerSuccess,
     isOpened,
-    data,
+    selectedLinkId,
   };
 });

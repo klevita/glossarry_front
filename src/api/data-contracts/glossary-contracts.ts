@@ -6,7 +6,7 @@ export interface GlossaryItem{
 
 export interface GlossaryLink{
   id: number,
-  source: string,
-  target: string,
+  source: number,
+  target: number,
   name: string,
 }

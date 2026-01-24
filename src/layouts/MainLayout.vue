@@ -14,30 +14,47 @@
 
         <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
-      <!--      <q-separator />-->
-      <!--      <q-list>-->
-      <!--        <q-item-label header>Действия</q-item-label>-->
+      <q-separator />
+      <q-list>
+        <q-item-label header>Действия</q-item-label>
 
-      <!--        <EssentialLink v-for="action in actionsList" :key="action.title" v-bind="action" />-->
-      <!--      </q-list>-->
+        <q-item v-for="action in actionsList" :key="action.title" clickable @click="action.action">
+          <q-item-section avatar>
+            <q-icon :name="action.icon" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ action.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container class="page-container">
       <router-view />
     </q-page-container>
     <glossary-item-modal />
+    <glossary-link-modal />
+    <glossary-item-delete-modal />
+    <glossary-link-delete-modal />
   </q-layout>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
-// import { useGlossaryItemModalStore } from 'stores/glossary-item-modal';
-// import { useGlossaryLinkModalStore } from 'stores/glossary-link-modal';
+import { useGlossaryItemModalStore } from 'stores/glossary-item-modal';
+import { useGlossaryLinkModalStore } from 'stores/glossary-link-modal';
+import { useGlossaryItemDeleteModalStore } from 'stores/glossary-item-delete-modal';
+import { useGlossaryLinkDeleteModalStore } from 'stores/glossary-link-delete-modal';
 import GlossaryItemModal from 'components/GlossaryItemModal.vue';
+import GlossaryLinkModal from 'components/GlossaryLinkModal.vue';
+import GlossaryItemDeleteModal from 'components/GlossaryItemDeleteModal.vue';
+import GlossaryLinkDeleteModal from 'components/GlossaryLinkDeleteModal.vue';
 
-// const { openModal: openGlossaryItemModal } = useGlossaryItemModalStore();
-// const { openModal: openGlossaryLinkModal } = useGlossaryLinkModalStore();
+const glossaryItemModalStore = useGlossaryItemModalStore();
+const glossaryLinkModalStore = useGlossaryLinkModalStore();
+const glossaryItemDeleteModalStore = useGlossaryItemDeleteModalStore();
+const glossaryLinkDeleteModalStore = useGlossaryLinkDeleteModalStore();
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -54,20 +71,28 @@ const linksList: EssentialLinkProps[] = [
   },
 ];
 
-// const actionsList = [
-//   {
-//     title: 'Создать элемент',
-//     caption: '',
-//     icon: 'post_add',
-//     action: openGlossaryItemModal,
-//   },
-//   {
-//     title: 'Создать отношение',
-//     caption: '',
-//     icon: 'add_link',
-//     action: openGlossaryLinkModal,
-//   },
-// ];
+const actionsList = [
+  {
+    title: 'Создать элемент',
+    icon: 'post_add',
+    action: () => glossaryItemModalStore.openModal(),
+  },
+  {
+    title: 'Создать связь',
+    icon: 'add_link',
+    action: () => glossaryLinkModalStore.openModal(),
+  },
+  {
+    title: 'Удалить элемент',
+    icon: 'delete',
+    action: () => glossaryItemDeleteModalStore.openModal(),
+  },
+  {
+    title: 'Удалить связь',
+    icon: 'link_off',
+    action: () => glossaryLinkDeleteModalStore.openModal(),
+  },
+];
 
 const leftDrawerOpen = ref(false);
 

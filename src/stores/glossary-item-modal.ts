@@ -10,21 +10,38 @@ const makeEmptyGlossaryItem = (): Omit<GlossaryItem, 'id'> & { id?: number } => 
 export const useGlossaryItemModalStore = defineStore('glossary-item-modal', () => {
   const isOpened = ref(false);
   const data = ref<Partial<GlossaryItem>>(makeEmptyGlossaryItem());
+  const onSuccess = ref<(() => void) | null>(null);
 
-  function openModal(glossaryItem = makeEmptyGlossaryItem()) {
+  function openModal(glossaryItem = makeEmptyGlossaryItem(), successCallback?: () => void) {
     data.value = glossaryItem;
+    onSuccess.value = successCallback || null;
     isOpened.value = true;
+  }
+
+  function closeModal() {
+    isOpened.value = false;
+  }
+
+  function triggerSuccess() {
+    if (onSuccess.value) {
+      onSuccess.value();
+    }
   }
 
   watch(
     () => isOpened.value,
-    () => {
-      data.value = makeEmptyGlossaryItem();
+    (opened) => {
+      if (!opened) {
+        data.value = makeEmptyGlossaryItem();
+        onSuccess.value = null;
+      }
     },
   );
 
   return {
     openModal,
+    closeModal,
+    triggerSuccess,
     isOpened,
     data,
   };

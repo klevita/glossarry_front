@@ -14,14 +14,36 @@
 
 <script setup lang="ts">
 import { getGlossary } from 'src/api/services/glossary-service';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import type { GlossaryItem } from 'src/api/data-contracts/glossary-contracts';
+import { useGlossaryItemModalStore } from 'stores/glossary-item-modal';
+import { useGlossaryItemDeleteModalStore } from 'stores/glossary-item-delete-modal';
 
+const glossaryItemModalStore = useGlossaryItemModalStore();
+const glossaryItemDeleteModalStore = useGlossaryItemDeleteModalStore();
 const glossary = ref<GlossaryItem[]>()
 
 async function fetchGlossary(){
   glossary.value = (await getGlossary()).data
 }
+
+watch(
+  () => glossaryItemModalStore.isOpened,
+  (opened) => {
+    if (!opened) {
+      void fetchGlossary();
+    }
+  },
+);
+
+watch(
+  () => glossaryItemDeleteModalStore.isOpened,
+  (opened) => {
+    if (!opened) {
+      void fetchGlossary();
+    }
+  },
+);
 
 onMounted(fetchGlossary)
 </script>
